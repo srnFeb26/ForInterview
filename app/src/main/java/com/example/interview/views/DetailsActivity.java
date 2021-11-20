@@ -3,7 +3,9 @@ package com.example.interview.views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,13 +32,14 @@ public class DetailsActivity extends AppCompatActivity {
     private ShimmerFrameLayout shimmerFrameLayout;
     private RelativeLayout mainFrame;
     private List<Children> children ;
+    private LiveData<DetailsData> detailsDataLiveData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
         setContentView(binding.getRoot());
-        myViewModel = new MyViewModel();
+        myViewModel = new ViewModelProvider(this).get(MyViewModel.class);
         binding.setViewModel(myViewModel);
         children = new ArrayList<>();
         init();
@@ -56,10 +59,11 @@ public class DetailsActivity extends AppCompatActivity {
         setupRecyclerView();
         backClick();
         String objectID = getIntent().getStringExtra("object_id");
-        myViewModel.callDetailsServer(this, objectID);
-        myViewModel.getDetailsDataObserver().observe(this, new Observer<DetailsData>() {
+        detailsDataLiveData = myViewModel.callDetailsServer(this, objectID);
+        detailsDataLiveData.observe(this, new Observer<DetailsData>() {
             @Override
             public void onChanged(DetailsData detailsData) {
+
                 binding.title.setText(getResources().getString(R.string.title_text)
                         +"  "+ detailsData.getTitle());
 
@@ -67,18 +71,20 @@ public class DetailsActivity extends AppCompatActivity {
                         +"  "+ detailsData.getAuthor());
 
                 binding.points.setText(getResources().getString(R.string.points_text)
-                        +"  "+ detailsData.getPints());
+                        +"  "+ detailsData.getPoints());
 
                 if (detailsData.getText() != null && detailsData.getText().length() > 0) {
                     binding.storyText.setText(getResources().getString(R.string.story_text) +
-                            "\n" + HtmlCompat.fromHtml(detailsData.getText(), 0));
+                            "\n" + HtmlCompat.fromHtml(""+detailsData.getText(), 0));
                 } else {
                     binding.storyText.setText(getResources().getString(R.string.story_text) +
                             "\n" + getResources().getString(R.string.user_story_error));
                 }
 
                 children = detailsData.getChildren();
-
+                if (children == null){
+                    children = new ArrayList<>();
+                }
                 for (int i = 0; i < children.size(); i++) {
                     if (children.get(i).getAuthor() == null) {
                         children.remove(i);

@@ -19,8 +19,6 @@ import com.example.interview.models.Hit;
 import com.example.interview.R;
 import com.example.interview.views.DetailsActivity;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Random;
 
@@ -37,16 +35,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     }
 
     @NonNull
-    @NotNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.search_list_cell, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if (holder.getAdapterPosition() > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_animation);
             holder.itemView.startAnimation(animation);
@@ -59,20 +56,20 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             if (hitList.get(position).title != null
                     && hitList.get(position).title.length() > 0) {
                 holder.title.setText(context.getResources().getString(R.string.title_text)
-                        +" "+ hitList.get(position).title);
+                        + " " + hitList.get(position).title);
             } else {
                 holder.title.setText(context.getResources().getString(R.string.title_text)
-                        + " "+context.getResources().getString(R.string.no_title_text));
+                        + " " + context.getResources().getString(R.string.no_title_text));
             }
 
             holder.author.setText(context.getResources().getString(R.string.author_text)
-                    +" "+ hitList.get(position).author);
+                    + " " + hitList.get(position).author);
 
             holder.points.setText(context.getResources().getString(R.string.points_text)
-                    +" "+ hitList.get(position).getPoints());
+                    + " " + hitList.get(position).getPoints());
 
             if (hitList.get(position).story_text != null) {
-                holder.story_text.setText( HtmlCompat.fromHtml(hitList.get(position).story_text,
+                holder.story_text.setText(HtmlCompat.fromHtml(""+hitList.get(position).story_text,
                         0));
             }
         }
@@ -95,7 +92,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         private TextView title, author, points, story_text;
         private CardView cardView;
 
-        public MyViewHolder(@NonNull @NotNull View itemView) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             author = itemView.findViewById(R.id.author);

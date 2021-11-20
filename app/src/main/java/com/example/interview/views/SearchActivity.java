@@ -13,7 +13,9 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,20 +28,24 @@ public class SearchActivity extends AppCompatActivity {
     private MyViewModel myViewModel;
     private RecyclerView recyclerView;
     private SearchAdapter searchAdapter;
+    private LiveData<SearchResultData> searchResultDataLiveData;
     private ShimmerFrameLayout shimmerFrameLayout;
     private List<Hit> hits = new ArrayList<>();
+    private Long backClickTime = 0l;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
         setContentView(binding.getRoot());
-        myViewModel = new MyViewModel();
+        myViewModel = new ViewModelProvider(this).get(MyViewModel.class);
         binding.setViewModel(myViewModel);
+
         init();
     }
 
     private void init() {
+        searchResultDataLiveData = myViewModel.getSearchResultObserver();
         shimmerFrameLayout = binding.shimmerFrame;
         recyclerView = binding.recyclerView;
     }
@@ -58,7 +64,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        myViewModel.searchResult.observe(this, new Observer<SearchResultData>() {
+        searchResultDataLiveData.observe(this, new Observer<SearchResultData>() {
             @Override
             public void onChanged(SearchResultData searchResultData) {
                 List<Hit> hitList = searchResultData.getHits();
@@ -104,5 +110,15 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (backClickTime + 3000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            finish();
+        } else {
+            myViewModel.displayToast(this,
+                    getResources().getString(R.string.press_back_message));
+        }
+        backClickTime = System.currentTimeMillis();
+    }
 }

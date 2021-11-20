@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.interview.R;
 import com.example.interview.models.Children;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -35,16 +34,15 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHo
     }
 
     @NonNull
-    @NotNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.detail_list_cell, parent, false);
 
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if (holder.getAdapterPosition() > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_animation);
             holder.itemView.startAnimation(animation);
@@ -56,7 +54,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHo
             holder.cardView.setBackgroundColor(color);
             Children children = childrenList.get(position);
             holder.author.setText(children.getAuthor());
-            holder.comment.setText(HtmlCompat.fromHtml(children.getText(), 0));
+            holder.comment.setText("" + HtmlCompat.fromHtml("" + children.getText(), 0));
         }
 
     }
@@ -70,7 +68,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHo
         private TextView author, comment;
         private CardView cardView;
 
-        public MyViewHolder(@NonNull @NotNull View itemView) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             author = itemView.findViewById(R.id.author);
             comment = itemView.findViewById(R.id.comment);

@@ -6,7 +6,7 @@ public class DetailsData {
     private String title;
     private String author;
     private String text;
-    private int pints;
+    private int points;
     private List<Children> children;
 
     public String getAuthor() {
@@ -17,8 +17,8 @@ public class DetailsData {
         return text;
     }
 
-    public int getPints() {
-        return pints;
+    public int getPoints() {
+        return points;
     }
 
     public List<Children> getChildren() {

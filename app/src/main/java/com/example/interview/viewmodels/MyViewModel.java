@@ -1,11 +1,13 @@
 package com.example.interview.viewmodels;
 
+import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.databinding.BaseObservable;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.interview.R;
@@ -14,7 +16,8 @@ import com.example.interview.models.SearchApiCalling;
 import com.example.interview.models.SearchResultData;
 
 
-public class MyViewModel extends BaseObservable {
+public class MyViewModel extends AndroidViewModel {
+
     public MutableLiveData<SearchResultData> searchResult;
     private MutableLiveData<DetailsData> detailsData;
     public MutableLiveData<String> status;
@@ -22,9 +25,9 @@ public class MyViewModel extends BaseObservable {
     public MutableLiveData<String> isClicked;
     public MutableLiveData<String> goBack;
 
-    public MyViewModel() {
+    public MyViewModel(@NonNull Application application) {
+        super(application);
         searchResult = new MutableLiveData<>();
-        detailsData = new MutableLiveData<>();
         status = new MutableLiveData<>();
         isClicked = new MutableLiveData<>();
         goBack = new MutableLiveData<>();
@@ -38,15 +41,6 @@ public class MyViewModel extends BaseObservable {
      */
     public MutableLiveData<SearchResultData> getSearchResultObserver() {
         return searchResult;
-    }
-
-    /**
-     * This one to update the user once server gives the result.
-     *
-     * @return it returns the detail result data of particular object when changes are comes.
-     */
-    public MutableLiveData<DetailsData> getDetailsDataObserver() {
-        return detailsData;
     }
 
     /**
@@ -91,11 +85,11 @@ public class MyViewModel extends BaseObservable {
         if (editTextValue.length() < 0) {
             Context context = view.getContext();
             displayToast(context, context.getResources().getString(R.string.enter_keyword));
-        } else if (! checkNetworkConnection(view.getContext())) {
+        } else if (!checkNetworkConnection(view.getContext())) {
             Context context = view.getContext();
             displayToast(context, context.getResources().getString(R.string.no_internet));
         } else {
-            isClicked.postValue("yes");
+            isClicked.postValue("");
             SearchApiCalling calling = new SearchApiCalling();
             calling.callApi(editTextValue, searchResult, status);
         }
@@ -103,24 +97,29 @@ public class MyViewModel extends BaseObservable {
 
     /**
      * This method is responsible to call api of detail data with comments.
+     *
      * @param objectID is a id of particular post.
      *                 Api calling is require to pass this as a parameter.
+     *                 <p>
+     *                 It returns the mutable live data of DetailsData  class.
      */
-    public void callDetailsServer(Context context, String objectID) {
-        if (! checkNetworkConnection(context)) {
-            displayToast(context, context.getResources().getString(R.string.no_internet));
-        } else {
-            SearchApiCalling calling = new SearchApiCalling();
-            calling.callDetailsApi(objectID, detailsData, status);
+    public MutableLiveData<DetailsData> callDetailsServer(Context context, String objectID) {
+        if (detailsData == null) {
+            detailsData = new MutableLiveData<>();
+            if (!checkNetworkConnection(context)) {
+                displayToast(context, context.getResources().getString(R.string.no_internet));
+            } else {
+                SearchApiCalling calling = new SearchApiCalling();
+                calling.callDetailsApi(objectID, detailsData, status);
+            }
         }
-
+        return detailsData;
     }
 
     /**
      * This method is responsible to back button click.
-     *
      */
-    public void goBackClicked(){
+    public void goBackClicked() {
         goBack.postValue("yes");
     }
 }

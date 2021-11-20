@@ -18,7 +18,6 @@
             android:name=".views.SearchActivity"
             android:exported="true"
             android:label="@string/title_activity_search"
-            android:screenOrientation="userPortrait"
             android:theme="@style/Theme.Interview.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
