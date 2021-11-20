@@ -1,6 +1,7 @@
 package com.example.interview.client;
 
 
+import com.example.interview.models.DetailsData;
 import com.example.interview.models.SearchResultData;
 
 import retrofit2.Call;
@@ -13,5 +14,5 @@ public interface ApiClient {
     Call<SearchResultData> getSearchResult(@Query("query")String query);
 
     @GET("items/{objectID}")
-    Call<SearchResultData> getResultDetails(@Path("objectID")String objectID);
+    Call<DetailsData> getResultDetails(@Path("objectID")String objectID);
 }

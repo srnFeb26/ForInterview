@@ -57,14 +57,14 @@ public class SearchApiCalling {
      *                     this is responsible for update the user when server gives Error.
      */
     public void callDetailsApi(String query,
-                               MutableLiveData<SearchResultData> searchResult,
+                               MutableLiveData<DetailsData> searchResult,
                                MutableLiveData<String> status) {
         ApiClient apiClient = RetrofitClient.getApiClient();
-        Call<SearchResultData> call = apiClient.getSearchResult(query);
-        call.enqueue(new Callback<SearchResultData>() {
+        Call<DetailsData> call = apiClient.getResultDetails(query);
+        call.enqueue(new Callback<DetailsData>() {
             @Override
-            public void onResponse(Call<SearchResultData> call,
-                                   Response<SearchResultData> response) {
+            public void onResponse(Call<DetailsData> call,
+                                   Response<DetailsData> response) {
                 if (response.code() == 200) {
                     if (response.code() == 200) {
                         searchResult.postValue(response.body());
@@ -73,7 +73,7 @@ public class SearchApiCalling {
             }
 
             @Override
-            public void onFailure(Call<SearchResultData> call, Throwable t) {
+            public void onFailure(Call<DetailsData> call, Throwable t) {
                 status.postValue("Failed");
             }
         });

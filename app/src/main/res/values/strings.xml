@@ -12,4 +12,11 @@
     <string name="no_internet">Please Check Network Connection..!</string>
     <string name="search_word">Type your keyword here</string>
     <string name="server_fail">Server Failed</string>
+    <string name="enter_keyword">Please enter keyword</string>
+    <string name="title_text">Title: </string>
+    <string name="no_title_text">No Title</string>
+    <string name="author_text">Author: </string>
+    <string name="points_text">Points: </string>
+    <string name="story_text">Story: </string>
+    <string name="user_story_error">User not added any story for this.</string>
 </resources>

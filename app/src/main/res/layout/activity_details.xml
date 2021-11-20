@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/orange_50">
 
         <RelativeLayout
             android:id="@+id/toolbar_layer"
@@ -23,63 +23,157 @@
                 android:id="@+id/toolbar"
                 layout="@layout/custom_toolbar" />
 
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="38dp"
+                android:fontFamily="@font/oswald_medium"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="26dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:onClick="@{() -> viewModel.goBackClicked()}"
+                android:src="@drawable/back" />
+
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar_layer" />
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_frame"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar_layer"
-            android:visibility="gone">
+            android:layout_below="@id/toolbar_layer">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                <RelativeLayout
+                    android:id="@+id/main_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                    <RelativeLayout
+                        android:id="@+id/user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/holo_green_light">
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                        <LinearLayout
+                            android:id="@+id/layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:orientation="vertical">
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                            <TextView
+                                android:id="@+id/author"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/oswald_medium"
+                                android:textColor="@color/black"
+                                android:textSize="14dp" />
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                            <TextView
+                                android:id="@+id/points"
+                                android:layout_width="250dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/oswald_medium"
+                                android:textColor="@color/black"
+                                android:textSize="14dp" />
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                            <TextView
+                                android:id="@+id/story_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/oswald_regular"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+                        </LinearLayout>
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                    </RelativeLayout>
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                    <RelativeLayout
+                        android:id="@+id/comment_layer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/user"
+                        android:background="@android:color/holo_blue_light">
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:fontFamily="@font/oswald_medium"
+                            android:gravity="center"
+                            android:text="Comments"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
+                    </RelativeLayout>
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/comment_layer" />
+                </RelativeLayout>
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible">
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                        <include layout="@layout/activity_details_shimmer" />
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                        <include layout="@layout/detail_list_cell_shimmer" />
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                        <include layout="@layout/detail_list_cell_shimmer" />
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                        <include layout="@layout/detail_list_cell_shimmer" />
 
-                <include layout="@layout/search_list_cell_shimmer" />
+                        <include layout="@layout/detail_list_cell_shimmer" />
 
-            </LinearLayout>
+                        <include layout="@layout/detail_list_cell_shimmer" />
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
+                        <include layout="@layout/detail_list_cell_shimmer" />
+
+                        <include layout="@layout/detail_list_cell_shimmer" />
+
+                        <include layout="@layout/detail_list_cell_shimmer" />
+
+                        <include layout="@layout/detail_list_cell_shimmer" />
+
+                        <include layout="@layout/detail_list_cell_shimmer" />
+
+                        <include layout="@layout/detail_list_cell_shimmer" />
+
+                        <include layout="@layout/detail_list_cell_shimmer" />
+
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>
 </layout>

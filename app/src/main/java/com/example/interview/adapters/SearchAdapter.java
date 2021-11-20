@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.interview.models.Hit;
@@ -55,16 +56,24 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             int b = 155 + random.nextInt(101);
             int color = Color.rgb(r, g, b);
             holder.cardView.setBackgroundColor(color);
-            if (hitList.get(position).title != null && hitList.get(position).title.length() > 0) {
-                holder.title.setText("Title : " + hitList.get(position).title);
+            if (hitList.get(position).title != null
+                    && hitList.get(position).title.length() > 0) {
+                holder.title.setText(context.getResources().getString(R.string.title_text)
+                        +" "+ hitList.get(position).title);
             } else {
-                holder.title.setText("Title : " + "No Title");
+                holder.title.setText(context.getResources().getString(R.string.title_text)
+                        + " "+context.getResources().getString(R.string.no_title_text));
             }
 
-            holder.author.setText("Author : " + hitList.get(position).author);
-            holder.points.setText("Points : " + hitList.get(position).getPoints());
+            holder.author.setText(context.getResources().getString(R.string.author_text)
+                    +" "+ hitList.get(position).author);
+
+            holder.points.setText(context.getResources().getString(R.string.points_text)
+                    +" "+ hitList.get(position).getPoints());
+
             if (hitList.get(position).story_text != null) {
-                holder.story_text.setText("" + hitList.get(position).story_text);
+                holder.story_text.setText( HtmlCompat.fromHtml(hitList.get(position).story_text,
+                        0));
             }
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {

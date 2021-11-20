@@ -11,4 +11,6 @@
     <color name="orange_800">#EF6C00</color>
     <color name="orange_900">#BF360C</color>
     <color name="shimmer_placeholder">#dddddd</color>
+    <color name="orange_50">#FFF3E0</color>
+    <color name="gray_600">#757575</color>
 </resources>
